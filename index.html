@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<!-- saved from url=(0107)file:///D:/%E6%B5%8F%E8%A7%88%E5%99%A8/nova-creator-cli-master/nova-creator-cli-master/to-do-generator.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色卡创作任务清单生成器</title>
+    <link rel="stylesheet" href="./角色卡创作任务清单生成器_files/to-do-generator.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-logo">Nova Creator</span>
+                <p class="sidebar-intro">按步骤填写信息，随时生成结构化的创作待办。</p>
+            </div>
+            <nav class="sidebar-nav">
+                <button type="button" class="nav-link active" data-target="basic-info">
+                    <span class="nav-index">01</span>
+                    <span>基本信息</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-1">
+                    <span class="nav-index">02</span>
+                    <span>世界观构建</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-2">
+                    <span class="nav-index">03</span>
+                    <span>角色设定</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-3">
+                    <span class="nav-index">04</span>
+                    <span>开场白</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-4">
+                    <span class="nav-index">05</span>
+                    <span>对话补充</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-5">
+                    <span class="nav-index">06</span>
+                    <span>角色采访</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-6">
+                    <span class="nav-index">07</span>
+                    <span>玩家角色</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-7">
+                    <span class="nav-index">08</span>
+                    <span>MVU 组件</span>
+                </button>
+                <button type="button" class="nav-link" data-target="step-extra">
+                    <span class="nav-index">09</span>
+                    <span>额外需求</span>
+                </button>
+            </nav>
+            <div class="sidebar-tips">
+                🌟 小贴士：随时折叠暂不处理的卡片；侧边栏可在任意阶段快速跳转到目标步骤。
+            </div>
+        </aside>
+
+        <div class="workspace">
+            <header class="hero">
+                <div class="hero-text">
+                    <span class="hero-eyebrow">角色卡工作台</span>
+                    <h1 class="hero-title">角色卡创作任务清单生成器</h1>
+                    <p class="hero-description">聚焦关键步骤，快速整理世界观、角色、开场白与 MVU 需求，一键导出 Markdown 待办。</p>
+                    <div class="hero-actions">
+                        <button type="button" class="hero-btn primary" onclick="generateMarkdown()">立即生成 Markdown</button>
+                        <button type="button" class="hero-btn secondary" onclick="resetForm()">重置所有输入</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content">
+            <!-- 基本信息 -->
+            <div class="section" id="basic-info" data-nav-section="">
+                <div class="section-heading">
+                    <span class="step-badge muted">准备</span>
+                    <div class="section-title-wrap">
+                        <h2>基本信息</h2>
+                        <p class="section-desc">先确认作品名称与类型，后续生成的 Markdown 会自动引用这些信息。</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="workName">作品名称</label>
+                    <input type="text" id="workName" placeholder="例如：废土幸存者、魔法学院日常">
+                </div>
+                <div class="form-group">
+                    <label for="workType">作品类型</label>
+                    <input type="text" id="workType" placeholder="例如：废土科幻、奇幻冒险、现代都市、历史架空">
+                </div>
+            </div>
+
+            <!-- 第一步：世界观构建 -->
+            <div class="section" id="step-1" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge">Step 01</span>
+                        <span class="collapsible-title">
+                            <span>世界观构建</span>
+                            <small>梳理背景设定和世界规则，明确所需资料。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label>背景设定需求</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="needBackground" name="backgroundNeed" value="need">
+                                <label for="needBackground">需要</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noBackground" name="backgroundNeed" value="no">
+                                <label for="noBackground">不需要</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 模式切换 -->
+                    <div class="mode-toggle-container">
+                        <span style="font-size: 0.9em; color: var(--text-light);">填写模式：</span>
+                        <button type="button" class="mode-toggle-btn active" onclick="toggleBackgroundMode(&#39;simple&#39;)">📝 简略模式</button>
+                        <button type="button" class="mode-toggle-btn" onclick="toggleBackgroundMode(&#39;detailed&#39;)">📋 详细模式</button>
+                    </div>
+
+                    <!-- 简略模式 -->
+                    <div class="simple-mode active" id="background-simple">
+                        <div class="form-group">
+                            <label for="backgroundOutlineSimple">背景设定大纲</label>
+                            <textarea id="backgroundOutlineSimple" placeholder="简要描述你想要的背景设定，例如：
+- 时代：后启示录时代，核战争后 50 年
+- 地点：废墟中重建的避难所城邦联盟
+- 描述：人类在废墟中建立避难所城邦联盟，资源匮乏，变异生物威胁，各避难所竞争生存" style="min-height: 160px; height: 158px;"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 详细模式 -->
+                    <div class="detailed-mode" id="background-detailed">
+                        <div class="form-group">
+                            <label>📋 背景设定详细信息</label>
+                            <div style="display: grid; gap: 12px;">
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">时代/时期</label>
+                                    <input type="text" id="bgEra" placeholder="例如：后启示录时代，核战争后 50 年">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">主要地点</label>
+                                    <input type="text" id="bgLocation" placeholder="例如：废墟中重建的避难所城邦联盟">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">背景描述</label>
+                                    <textarea id="bgDescription" placeholder="例如：
+核战争后50年，人类在废墟中建立了避难所城邦联盟。这是一个资源匮乏的世界，变异生物威胁着幸存者的安全。各个避难所为了生存竞争资源，同时内部也存在技术派与军事派的权力斗争。" style="min-height: 160px; height: 0px;"></textarea>
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">特殊规则/系统（可选）</label>
+                                    <textarea id="bgSpecialRules" placeholder="例如：
+- 魔法系统：基于古代遗迹的能量结晶
+- 科技系统：旧时代科技与废土改造的结合
+- 货币系统：以纯净水和能源块为流通货币
+- 等级制度：由贡献值决定在避难所的地位" style="min-height: 160px; height: 0px;"></textarea>
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">补充说明</label>
+                                    <textarea id="backgroundOutline" placeholder="其他背景设定相关的说明、灵感、参考资料等" style="min-height: 160px; height: 0px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二步：角色设定 -->
+            <div class="section" id="step-2" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge">Step 02</span>
+                        <span class="collapsible-title">
+                            <span>角色设定</span>
+                            <small>搭建角色档案，补充定位、外观与动机。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label>角色设定需求</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="needCharacter" name="characterNeed" value="yes">
+                                <label for="needCharacter">需要</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noCharacter" name="characterNeed" value="no">
+                                <label for="noCharacter">不需要</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="charactersContainer">
+    <div class="character-card" id="character-1">
+        <h3>角色 1</h3>
+
+        <!-- 角色定位 -->
+        <div class="form-group">
+            <label>📍 角色定位</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="radio" id="char-1-role-main" name="char-role-1" class="char-role-main" value="主角（NPC）">
+                    <label for="char-1-role-main">主角（NPC）</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="char-1-role-important" name="char-role-1" class="char-role-important" value="重要配角">
+                    <label for="char-1-role-important">重要配角</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="char-1-role-normal" name="char-role-1" class="char-role-normal" value="普通 NPC">
+                    <label for="char-1-role-normal">普通 NPC</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模板选择 -->
+        <div class="form-group">
+            <label>📋 使用模板</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="radio" id="char-1-template-full" name="char-template-1" class="char-template-full" value="原版模板" checked="">
+                    <label for="char-1-template-full">原版模板（完整版）</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="char-1-template-simple" name="char-template-1" class="char-template-simple" value="简要版模板">
+                    <label for="char-1-template-simple">简要版模板（精简版）</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模式切换 -->
+        <div class="mode-toggle-container">
+            <span style="font-size: 0.9em; color: var(--text-light);">填写模式：</span>
+            <button type="button" class="mode-toggle-btn active" onclick="toggleCharacterMode(1, &#39;simple&#39;)">📝 简略模式</button>
+            <button type="button" class="mode-toggle-btn" onclick="toggleCharacterMode(1, &#39;detailed&#39;)">📋 详细模式</button>
+        </div>
+
+        <!-- 简略模式 -->
+        <div class="simple-mode active" id="character-1-simple">
+            <div class="form-group">
+                <label>角色名称</label>
+                <input type="text" class="char-name" placeholder="填写角色名称">
+            </div>
+            <div class="form-group">
+                <label>人物设定大纲</label>
+                <textarea class="char-outline" placeholder="简要描述角色的核心信息，例如：
+- 姓名：艾莉克斯
+- 性别/年龄：女/28岁
+- 职业：工程师
+- 核心性格：聪明、谨慎
+- 外貌：黑色长发，深褐色眼睛，中等身材
+- 背景：避难所高级工程师，父亲是传奇工程师
+- 目标：揭开&#39;伊甸园计划&#39;的真相" style="min-height: 160px; height: 197px;"></textarea>
+            </div>
+        </div>
+
+        <!-- 详细模式 -->
+        <div class="detailed-mode" id="character-1-detailed">
+            <!-- 基本信息 -->
+            <div class="form-group">
+                <label>🏷️ 基本信息</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <input type="text" class="char-name" placeholder="角色名称">
+                    <input type="text" class="char-gender" placeholder="性别（例如：女/男/其他）">
+                    <input type="text" class="char-age" placeholder="年龄（例如：28岁）">
+                    <input type="text" class="char-race" placeholder="种族（例如：人类/精灵/机械人）">
+                </div>
+            </div>
+
+            <!-- 外貌特征 -->
+            <div class="form-group">
+                <label>👤 外貌特征</label>
+                <div style="display: grid; gap: 8px;">
+                    <input type="text" class="char-height" placeholder="身高/体型（例如：168cm，中等身材）">
+                    <input type="text" class="char-hair" placeholder="发型/发色（例如：黑色长发，通常扎马尾）">
+                    <input type="text" class="char-eyes" placeholder="眼睛（例如：深褐色眼睛，眼神锐利）">
+                    <textarea class="char-appearance" placeholder="其他外貌特征（例如：
+- 肤色白皙，有几处浅疤
+- 左手有机械义肢
+- 总是戴着护目镜）" style="min-height: 160px; height: 0px;"></textarea>
+                </div>
+            </div>
+
+            <!-- 服饰风格 -->
+            <div class="form-group">
+                <label>👔 服饰风格</label>
+                <div style="display: grid; gap: 8px;">
+                    <input type="text" class="char-outfit-daily" placeholder="日常着装（例如：工装裤、黑色背心、工具腰带）">
+                    <input type="text" class="char-outfit-special" placeholder="特殊场合着装（可选）">
+                    <textarea class="char-accessories" placeholder="配饰与装备（例如：
+- 总是携带一个改装过的多功能工具箱
+- 戴着父亲留下的怀表）" style="min-height: 160px; height: 0px;"></textarea>
+                </div>
+            </div>
+
+            <!-- 性格特质 -->
+            <div class="form-group">
+                <label>💭 性格特质</label>
+                <div style="display: grid; gap: 8px;">
+                    <textarea class="char-personality" placeholder="核心性格（例如：
+- 冷静、理性、善于分析
+- 对待工作一丝不苟
+- 不善于表达情感，但内心温暖）" style="min-height: 160px; height: 0px;"></textarea>
+                    <input type="text" class="char-speech" placeholder="说话方式（例如：语速较快，喜欢用技术术语）">
+                    <input type="text" class="char-catchphrase" placeholder="口头禅/习惯用语（例如：&#39;让我算算...&#39;）">
+                    <textarea class="char-habits" placeholder="行为习惯（例如：
+- 思考时会摆弄手中的工具
+- 遇到问题喜欢独自钻研
+- 对机械设备有强迫症般的整理欲）" style="min-height: 160px; height: 0px;"></textarea>
+                </div>
+            </div>
+
+            <!-- 背景故事 -->
+            <div class="form-group">
+                <label>📖 背景故事</label>
+                <div style="display: grid; gap: 8px;">
+                    <input type="text" class="char-occupation" placeholder="职业/身份（例如：避难所高级工程师）">
+                    <textarea class="char-backstory" placeholder="过去经历（例如：
+- 出生在避难所，父亲是传奇工程师
+- 12岁时父亲在事故中去世
+- 继承父亲遗志，成为最年轻的高级工程师
+- 一直在寻找父亲生前研究的&#39;伊甸园计划&#39;真相）" style="min-height: 160px; height: 0px;"></textarea>
+                </div>
+            </div>
+
+            <!-- 人际关系 -->
+            <div class="form-group">
+                <label>👥 人际关系</label>
+                <textarea class="char-relationships" placeholder="与其他角色的关系（例如：
+- 与避难所理事会关系微妙，被重用但不被完全信任
+- 有一个青梅竹马的好友，现在是军事派成员
+- 对{{user}}：初次见面持警惕态度，但逐渐建立信任）" style="min-height: 160px; height: 0px;"></textarea>
+            </div>
+
+            <!-- 动机与目标 -->
+            <div class="form-group">
+                <label>🎯 动机与目标</label>
+                <div style="display: grid; gap: 8px;">
+                    <textarea class="char-goals" placeholder="目标与愿望（例如：
+- 揭开父亲&#39;伊甸园计划&#39;的真相
+- 让避难所的供电系统更加稳定
+- 证明自己不是靠父亲的名声）" style="min-height: 160px; height: 0px;"></textarea>
+                    <textarea class="char-fears" placeholder="恐惧与弱点（例如：
+- 害怕辜负父亲的期望
+- 对失去控制的局面感到不安
+- 不擅长处理人际关系，容易被孤立）" style="min-height: 160px; height: 0px;"></textarea>
+                </div>
+            </div>
+
+            <!-- 技能与能力 -->
+            <div class="form-group">
+                <label>⚡ 技能与能力</label>
+                <textarea class="char-skills" placeholder="擅长的技能（例如：
+- 精通机械维修和改造
+- 优秀的电路设计能力
+- 能够快速分析和解决技术问题
+- 基础战斗技能（主要是防身）
+- 对旧时代科技有深入研究）" style="min-height: 160px; height: 0px;"></textarea>
+            </div>
+
+            <!-- 补充说明 -->
+            <div class="form-group">
+                <label>📝 补充说明</label>
+                <textarea class="char-notes" placeholder="其他补充信息、创作灵感、注意事项等" style="min-height: 160px; height: 0px;"></textarea>
+            </div>
+        </div>
+
+        
+    </div>
+    </div>
+                    <button class="add-character-btn" onclick="addCharacter()">➕ 添加角色</button>
+                </div>
+            </div>
+
+            <!-- 第三步：开场白 -->
+            <div class="section" id="step-3" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge">Step 03</span>
+                        <span class="collapsible-title">
+                            <span>开场白</span>
+                            <small>定义开场场景与篇幅，为剧情定下基调。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label>开场白需求</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="needOpening" name="openingNeed" value="need">
+                                <label for="needOpening">需要</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noOpening" name="openingNeed" value="no">
+                                <label for="noOpening">不需要</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="openingScene">开场场景</label>
+                        <input type="text" id="openingScene" placeholder="例如：日常/冒险/悬疑/战斗/浪漫">
+                    </div>
+
+                    <div class="form-group">
+                        <label>目标篇幅</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="length1" name="openingLength" value="简单场景（300-500字）">
+                                <label for="length1">简单场景（300-500字）</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="length2" name="openingLength" value="标准场景（500-800字）">
+                                <label for="length2">标准场景（500-800字）</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="length3" name="openingLength" value="复杂场景（800-1500字）">
+                                <label for="length3">复杂场景（800-1500字）</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 模式切换 -->
+                    <div class="mode-toggle-container">
+                        <span style="font-size: 0.9em; color: var(--text-light);">填写模式：</span>
+                        <button type="button" class="mode-toggle-btn active" onclick="toggleOpeningMode(&#39;simple&#39;)">📝 简略模式</button>
+                        <button type="button" class="mode-toggle-btn" onclick="toggleOpeningMode(&#39;detailed&#39;)">📋 详细模式</button>
+                    </div>
+
+                    <!-- 简略模式 -->
+                    <div class="simple-mode active" id="opening-simple">
+                        <div class="form-group">
+                            <label for="openingOutlineSimple">开场白大纲</label>
+                            <textarea id="openingOutlineSimple" placeholder="描述你希望的开场场景，例如：
+- 场景：艾莉克斯在地表废墟中执行任务时，设备出现故障
+- 时间：傍晚，即将天黑
+- 氛围：紧张、危机感
+- 与 {{user}} 的关系：临时组队的搭档" style="min-height: 160px; height: 158px;"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 详细模式 -->
+                    <div class="detailed-mode" id="opening-detailed">
+                        <div class="form-group">
+                            <label>📋 开场白详细信息</label>
+                            <div style="display: grid; gap: 12px;">
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">具体场景</label>
+                                    <input type="text" id="openingSpecificScene" placeholder="例如：艾莉克斯在地表废墟中执行任务时，设备出现故障">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                    <div>
+                                        <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">时间</label>
+                                        <input type="text" id="openingTime" placeholder="例如：傍晚，即将天黑">
+                                    </div>
+                                    <div>
+                                        <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">地点</label>
+                                        <input type="text" id="openingLocation" placeholder="例如：废弃的工业区">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">天气/氛围</label>
+                                    <input type="text" id="openingAtmosphere" placeholder="例如：紧张、危机感、雷雨将至">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">与 {{user}} 的关系</label>
+                                    <input type="text" id="openingUserRelation" placeholder="例如：临时组队的搭档、初次见面、雇佣关系">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">初始情境/冲突</label>
+                                    <textarea id="openingInitialConflict" placeholder="例如：
+- 设备突然失灵，无法联系基地
+- 太阳即将落山，夜晚的废土更加危险
+- 必须在天黑前找到避难所
+- {{user}}是唯一可以依靠的人" style="min-height: 160px; height: 0px;"></textarea>
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85em; color: var(--text-light); margin-bottom: 4px; display: block;">补充说明</label>
+                                    <textarea id="openingOutline" placeholder="其他开场白相关的说明、想法、参考等" style="min-height: 160px; height: 0px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第四步：对话补充 -->
+            <div class="section" id="step-4" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge">Step 04</span>
+                        <span class="collapsible-title">
+                            <span>对话补充</span>
+                            <small>可选：补全关键情境下的范例对话。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label>是否需要对话补充</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="needDialogue" name="dialogueNeed" value="need">
+                                <label for="needDialogue">需要</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noDialogue" name="dialogueNeed" value="no">
+                                <label for="noDialogue">不需要</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dialogueCharacter">对应角色</label>
+                        <input type="text" id="dialogueCharacter" placeholder="填写需要对话补充的角色名">
+                    </div>
+
+                    <div class="form-group">
+                        <label>场景需求（可多选）</label>
+                        <textarea id="dialogueScenes" rows="3" placeholder="例如：日常闲聊、紧张时刻、战斗场景、亲密互动、情绪波动（高兴/愤怒/悲伤）" style="height: 178px;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第五步：角色采访 -->
+            <div class="section" id="step-5" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge">Step 05</span>
+                        <span class="collapsible-title">
+                            <span>角色采访</span>
+                            <small>可选：设计问答，挖掘角色的深层细节。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label>是否需要角色采访</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="needInterview" name="interviewNeed" value="need">
+                                <label for="needInterview">需要</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noInterview" name="interviewNeed" value="no">
+                                <label for="noInterview">不需要</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interviewCharacter">对应角色</label>
+                        <input type="text" id="interviewCharacter" placeholder="填写需要进行采访的角色名">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interviewTopics">采访主题</label>
+                        <textarea id="interviewTopics" placeholder="列出想要深入探讨的主题或问题，例如：
+1. 关于她离开避难所的真实原因
+2. 对&#39;伊甸园计划&#39;的看法和动机
+3. 最恐惧的事情是什么" style="height: 178px;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第六步：玩家角色设定 -->
+            <div class="section" id="step-6" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge">Step 06</span>
+                        <span class="collapsible-title">
+                            <span>玩家角色设定</span>
+                            <small>可选：梳理{{user}}的背景、动机与互动重点。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label>是否需要玩家设定</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="needPlayer" name="playerNeed" value="need">
+                                <label for="needPlayer">需要</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noPlayer" name="playerNeed" value="no">
+                                <label for="noPlayer">不需要</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>设定深度</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="depth1" name="playerDepth" value="极简设定（最大自由度）">
+                                <label for="depth1">极简设定（最大自由度）</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="depth2" name="playerDepth" value="简化设定（有基本框架）">
+                                <label for="depth2">简化设定（有基本框架）</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="depth3" name="playerDepth" value="完整设定（明确背景和性格）">
+                                <label for="depth3">完整设定（明确背景和性格）</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="playerOutline">玩家角色大纲</label>
+                        <textarea id="playerOutline" placeholder="描述玩家角色的基本信息，例如：
+- 身份：地表拾荒者
+- 背景：在废土中长大
+- 特点：野外生存能力强" style="height: 178px;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第七步：MVU 组件包 -->
+            <div class="section" id="step-7" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge">Step 07</span>
+                        <span class="collapsible-title">
+                            <span>MVU 组件包</span>
+                            <small>可选：配置变量、动态世界与 UI 展示。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label>是否使用 MVU 组件包</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="needMVU" name="mvuNeed" value="need">
+                                <label for="needMVU">需要</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="noMVU" name="mvuNeed" value="no">
+                                <label for="noMVU">不需要</label>
+                            </div>
+                        </div>
+                        <p class="placeholder-text">MVU Zod 是一个基于 Zod Schema 的变量管理框架，用于实现角色和世界的动态性。该系统通过 Zod 提供类型安全和运行时验证，使用 JSON Patch 标准进行变量更新，使角色和世界能够根据故事进展展现不同的行为模式和状态。</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>组件选择（可多选）</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mvuCore" value="MVU核心组件（1.0-3.2）" class="mvu-core-toggle">
+                                <label for="mvuCore">MVU核心组件（1.0-3.2）</label>
+                            </div>
+                            <div style="margin-left: 24px; display: grid; gap: 8px; margin-top: 8px; margin-bottom: 8px;">
+                                <small style="color: var(--text-light);">包含：变量结构设计、变量初始化、变量更新规则、变量列表、变量输出格式</small>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mvu5" value="分阶段角色设定">
+                                <label for="mvu5">分阶段角色设定</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mvu6" value="动态世界内容">
+                                <label for="mvu6">动态世界内容</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="mvu7" value="HTML状态栏">
+                                <label for="mvu7">HTML状态栏</label>
+                            </div>
+                        </div>
+                        <p class="placeholder-text">提示：MVU核心组件（1.0-3.2）是必选整体，包含变量系统的所有基础模块。其他组件可按需选择。</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>需要追踪的变量</label>
+                        <div id="mvuVariablesContainer">
+    <div class="variable-card" id="variable-1">
+        <div class="form-group variable-name-group">
+            <label>变量名</label>
+            <input type="text" class="var-name" placeholder="例如：好感度">
+        </div>
+        <div class="form-group">
+            <label>说明/要求</label>
+            <textarea class="var-desc" placeholder="例如：数值范围 0-100，影响角色对话风格" style="height: 158px;"></textarea>
+        </div>
+        
+    </div>
+    </div>
+                        <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                            <button class="add-character-btn" onclick="addVariable()">➕ 添加变量</button>
+                            <button class="add-character-btn success" onclick="loadPresetVariables()">📋 加载预设变量</button>
+                            <button class="add-character-btn danger" onclick="clearAllVariables()">🗑️ 清空所有变量</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mvuStageSettings">分阶段角色设定说明</label>
+                        <textarea id="mvuStageSettings" placeholder="描述角色在不同阶段的行为变化，例如：
+- 好感度 0-30：冷淡，对话简短
+- 好感度 31-60：开始友好，愿意聊天
+- 好感度 61-80：信任玩家，会分享秘密
+- 好感度 81-100：完全信任，展现真实性格" style="height: 178px;"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mvuDynamicWorld">动态世界内容说明</label>
+                        <textarea id="mvuDynamicWorld" placeholder="描述世界内容如何随变量变化，例如：
+- 时间为白天：街道繁忙，商店营业
+- 时间为夜晚：街道空旷，氛围神秘
+- 故事阶段为第二章：城市进入戒严状态" style="height: 178px;"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mvuHtmlDisplay">HTML 状态栏显示需求</label>
+                        <textarea id="mvuHtmlDisplay" placeholder="描述需要在状态栏显示的内容，例如：
+- 显示好感度进度条（红色到粉色渐变）
+- 显示当前故事章节
+- 显示时间和天气" style="height: 178px;"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mvuNotes">其他特殊说明</label>
+                        <textarea id="mvuNotes" placeholder="其他 MVU 系统相关的补充说明" style="height: 178px;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 额外需求 -->
+            <div class="section" id="step-extra" data-nav-section="">
+                <h2 class="collapsible" onclick="toggleCollapse(this)" aria-expanded="true" role="button" tabindex="0">
+                    <span class="collapsible-label">
+                        <span class="step-badge muted">Extra</span>
+                        <span class="collapsible-title">
+                            <span>额外需求</span>
+                            <small>记录特别说明、禁忌或灵感补充。</small>
+                        </span>
+                    </span>
+                    <span class="collapse-icon" aria-hidden="true">▾</span>
+                </h2>
+                <div class="collapse-content" aria-hidden="false">
+                    <div class="form-group">
+                        <label for="extraRequirements">特殊要求或补充说明</label>
+                        <textarea id="extraRequirements" placeholder="在这里填写任何额外的要求、想法或注意事项，例如：
+- 角色对话要有明显的口音或口头禅
+- 某些禁忌话题或敏感设定
+- 想要的叙事风格（严肃/轻松/黑暗/幽默等）" style="height: 178px;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="generateMarkdown()">📄 生成 Markdown</button>
+                <button class="btn btn-secondary" onclick="resetForm()">🔄 重置表单</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./角色卡创作任务清单生成器_files/jquery.min.js.下载"></script>
+    <script src="./角色卡创作任务清单生成器_files/to-do-generator.js"></script>
+
+
+</body></html>
